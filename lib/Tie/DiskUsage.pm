@@ -1,6 +1,6 @@
 package Tie::DiskUsage;
 
-$VERSION = '0.06';
+$VERSION = '0.07';
 @ISA = qw(Tie::StdHash);
 
 use strict;
@@ -12,24 +12,33 @@ $DU_BIN = '/usr/bin/du';
 
 sub TIEHASH { 
     my $class = shift;
-    return bless &_parse_usage, $class;
+    return bless &_tie, $class;
+}
+
+sub _tie {
+    _locate_du();
+    &_parse_usage;
+}
+
+sub _locate_du {
+    if ((!-e $DU_BIN || !-f $DU_BIN) && $] >= 5.008) { 
+        require File::Which;
+	my $du_which = File::Which::which('du') || '';
+	$du_which 
+	  ? $DU_BIN = $du_which 
+	  : croak "Couldn't locate $DU_BIN: $!";
+    }
 }
 
 sub _parse_usage {
     my $path = shift || '.';
-    if ((!-e $DU_BIN || !-f $DU_BIN) && $] >= 5.008) { 
-        require File::Which;
-	my $du_which = File::Which::which('du') || '';
-	-e $du_which 
-	  ? $DU_BIN = $du_which 
-	  : die "Couldn't locate $DU_BIN";
-    }
+    local *PIPE;
     open PIPE, "$DU_BIN @_ $path |" or exit 1;
     my %usage;
     {
-       local ($/, $_);
-       $/ = ''; $_ = <PIPE>;
-       %usage = (reverse split);
+         local($/, $_);
+         $/ = ''; $_ = <PIPE>;
+         %usage = (reverse split);
     }
     close PIPE 
       or croak "Couldn't drop pipe to $DU_BIN: $!";
@@ -62,6 +71,9 @@ passed subsequently.
 By default the location of the du-command is to be
 assumed in F</usr/bin/du>; if C<du> cannot be found to exist
 there, C<File::Which> will attempt to gather its former location.
+
+The default path to C<du> may be overriden by 
+setting $Tie::DiskUsage::$DU_BIN. 
 
 =head1 SEE ALSO
 
