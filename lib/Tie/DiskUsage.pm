@@ -4,7 +4,7 @@ use 5.006;
 use strict;
 use warnings;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 our @ISA = qw(Tie::StdHash);
 use Carp 'croak';
@@ -17,13 +17,6 @@ sub TIEHASH {
     return bless \%{&_parse_usage}, $class;
 }
 
-sub STORE {
-    croak __PACKAGE__," doesn't support storing";
-}
-
-sub DESTROY {}
-sub UNTIE   {}
-
 sub _parse_usage {
     my $path = shift || '.';
     if ((!-e $DU_BIN || !-f $DU_BIN) && $] >= 5.008) { 
@@ -33,8 +26,8 @@ sub _parse_usage {
     open PIPE, "$DU_BIN @_ $path & |" or exit 1;       
     my %usage;
     for (<PIPE>) {
+        chomp;
         my($size, $item) = split;
-	chomp($item);
 	$usage{$item} = $size;
     }
     close PIPE 
@@ -54,15 +47,15 @@ Tie::DiskUsage - tie disk-usage to an hash.
  require Tie::DiskUsage;
 
  tie %usage, 'Tie::DiskUsage', '/var', '-h';
-
  print $usage{'/var/log'};
+ untie %usage;
 
 =head1 DESCRIPTION
 
 Tie::DiskUsage ties the disk-usage, which is gathered
 from the output of C<du>, to an hash. If the path to perform 
-the du-command on e.g. F</etc> is being omitted, the current working 
-directory will be assumed; optional arguments to C<du> may be 
+the du-command on is being omitted, the current working 
+directory will be examined; optional arguments to C<du> may be 
 passed subsequently.
 
 By default the location of the du-command is to be

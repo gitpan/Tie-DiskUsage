@@ -10,3 +10,4 @@ my $log  = "$path/log";
 
 tie my %usage, 'Tie::DiskUsage', $path, '-h';
 print "$log: $usage{$log}\n";
+untie %usage;
