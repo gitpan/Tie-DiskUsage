@@ -1,6 +1,6 @@
 package Tie::DiskUsage;
 
-$VERSION = '0.07';
+$VERSION = '0.09';
 @ISA = qw(Tie::StdHash);
 
 use strict;
@@ -50,7 +50,7 @@ __END__
 
 =head1 NAME
 
-Tie::DiskUsage - Tie disk-usage to an hash
+Tie::DiskUsage - Tie disk-usage to a hash
 
 =head1 SYNOPSIS
 
@@ -63,7 +63,7 @@ Tie::DiskUsage - Tie disk-usage to an hash
 =head1 DESCRIPTION
 
 Tie::DiskUsage ties the disk-usage, which is gathered
-from the output of C<du>, to an hash. If the path to perform 
+from the output of C<du>, to a hash. If the path to perform 
 the du-command on is being omitted, the current working 
 directory will be examined; optional arguments to C<du> may be 
 passed subsequently.
@@ -72,8 +72,8 @@ By default the location of the du-command is to be
 assumed in F</usr/bin/du>; if C<du> cannot be found to exist
 there, C<File::Which> will attempt to gather its former location.
 
-The default path to C<du> may be overriden by 
-setting $Tie::DiskUsage::$DU_BIN. 
+The default path to C<du> may be overriden by setting 
+$Tie::DiskUsage::$DU_BIN. 
 
 =head1 SEE ALSO
 

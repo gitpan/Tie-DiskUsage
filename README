@@ -1,7 +1,7 @@
 Tie::DiskUsage
 ==============
 
-Tie disk-usage to an hash
+Tie disk-usage to a hash
 
 INSTALLATION
 
@@ -16,7 +16,7 @@ SCRIPTS
 
 bin/du.pl
 
-Interface to Tie::DiskUsage that outputs disk-usage.
+Outputs disk-usage.
 
 LICENSE
 
