@@ -1,6 +1,6 @@
 package Tie::DiskUsage;
 
-$VERSION = '0.11';
+$VERSION = '0.13';
 @ISA = qw(Tie::StdHash);
 
 use strict;
