@@ -4,4 +4,4 @@ Revision history for Perl extension Tie::DiskUsage.
  - bin/du.pl has been added.
 
 0.01 2004/01/26
- - initial version.
+ - Initial version.
