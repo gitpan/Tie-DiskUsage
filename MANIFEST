@@ -1,3 +1,4 @@
+bin/du.pl
 CHANGES
 lib/Tie/DiskUsage.pm
 Makefile.PL

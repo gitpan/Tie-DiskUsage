@@ -1,20 +1,18 @@
 package Tie::DiskUsage;
 
-use 5.006;
+$VERSION = '0.05';
+@ISA = qw(Tie::StdHash);
+
 use strict;
-use warnings;
-
-our $VERSION = '0.04';
-
-our @ISA = qw(Tie::StdHash);
+use vars qw($DU_BIN);
 use Carp 'croak';
 use Tie::Hash;
 
-our $DU_BIN = '/usr/bin/du';
+$DU_BIN = '/usr/bin/du';
 
-sub TIEHASH {
+sub TIEHASH { 
     my $class = shift;
-    return bless \%{&_parse_usage}, $class;
+    return bless &_parse_usage, $class;
 }
 
 sub _parse_usage {
@@ -31,7 +29,7 @@ sub _parse_usage {
 	$usage{$item} = $size;
     }
     close PIPE 
-      or croak "Couldn't close pipe to $DU_BIN: $!";
+      or croak "Couldn't drop pipe to $DU_BIN: $!";
     return \%usage;
 } 
 
@@ -40,7 +38,7 @@ __END__
 
 =head1 NAME
 
-Tie::DiskUsage - tie disk-usage to an hash.
+Tie::DiskUsage - Tie disk-usage to an hash
 
 =head1 SYNOPSIS
 
@@ -64,6 +62,6 @@ there, C<File::Which> will attempt to gather its former location.
 
 =head1 SEE ALSO
 
-L<perlfunc/tie>, du(1).
+L<perlfunc/tie>, du(1)
 
 =cut

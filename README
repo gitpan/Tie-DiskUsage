@@ -1,7 +1,7 @@
 Tie::DiskUsage
 ==============
 
-Tie disk-usage to an hash.
+Tie disk-usage to an hash
 
 INSTALLATION
 
@@ -11,6 +11,12 @@ To install this module type the following:
    make
    make test
    make install
+   
+SCRIPTS
+
+bin/du.pl
+
+Interface to Tie::DiskUsage that outputs disk-usage.
 
 LICENSE
 

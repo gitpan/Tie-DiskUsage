@@ -6,5 +6,5 @@ requires:
     Tie::Hash: 0 
 distribution_type: module
 license: perl
-dist_abstract: tie disk-usage to an hash.
+dist_abstract: Tie disk-usage to an hash
 dist_author: Steven Schubiger
