@@ -1,6 +1,6 @@
 package Tie::DiskUsage;
 
-$VERSION = '0.05';
+$VERSION = '0.06';
 @ISA = qw(Tie::StdHash);
 
 use strict;
@@ -19,14 +19,17 @@ sub _parse_usage {
     my $path = shift || '.';
     if ((!-e $DU_BIN || !-f $DU_BIN) && $] >= 5.008) { 
         require File::Which;
-	$DU_BIN = File::Which::which('du');
+	my $du_which = File::Which::which('du') || '';
+	-e $du_which 
+	  ? $DU_BIN = $du_which 
+	  : die "Couldn't locate $DU_BIN";
     }
-    open PIPE, "$DU_BIN @_ $path & |" or exit 1;       
+    open PIPE, "$DU_BIN @_ $path |" or exit 1;
     my %usage;
-    for (<PIPE>) {
-        chomp;
-        my($size, $item) = split;
-	$usage{$item} = $size;
+    {
+       local ($/, $_);
+       $/ = ''; $_ = <PIPE>;
+       %usage = (reverse split);
     }
     close PIPE 
       or croak "Couldn't drop pipe to $DU_BIN: $!";
