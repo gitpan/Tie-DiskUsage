@@ -1,0 +1,8 @@
+--- #YAML:1.0
+module_name: Tie-DiskUsage
+dist_version_from: lib/Tie/DiskUsage.pm
+installdirs: site
+distribution_type: module
+license: perl
+dist_abstract: tie disk-usage to an hash.
+dist_author: Steven Schubiger
