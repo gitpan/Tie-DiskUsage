@@ -1,6 +1,6 @@
 package Tie::DiskUsage;
 
-$VERSION = '0.1';
+$VERSION = '0.11';
 @ISA = qw(Tie::StdHash);
 
 use strict;
@@ -13,16 +13,15 @@ $DU_BIN = '/usr/bin/du';
 
 
 sub TIEHASH { 
-    my $pkg = shift;
-     
-    return bless( &_tie, $pkg );
+    (undef) = shift;
+    
+    return bless &_tie; 
 }
-
 sub UNTIE {}
 
 sub _tie {
     _locate_du();
-    
+      
     return &_parse_usage;
 }
 
@@ -40,17 +39,12 @@ sub _locate_du {
 sub _parse_usage {
     my $path = shift || '.';
     
-    my %usage;
-    
     local *PIPE;
     open PIPE, "$DU_BIN @_ $path |" or exit 1;
-    {
-         local ($/, $_); 
-	 $/ = '';
-	  
-	 $_ = <PIPE>;
-         %usage = (reverse split);
-    }
+    
+    local $_ = do { local $/ = ''; <PIPE> };
+    my %usage = (reverse split);
+    
     close PIPE 
       or croak "Couldn't drop pipe to $DU_BIN: $!";
       
