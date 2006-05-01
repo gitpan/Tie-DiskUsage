@@ -1,28 +1,26 @@
-Tie::DiskUsage
-==============
+NAME
+    Tie::DiskUsage - Tie disk-usage to a hash
 
-Tie disk-usage to a hash
+SYNOPSIS
+     use Tie::DiskUsage;
 
-INSTALLATION
+     tie %usage, 'Tie::DiskUsage', '/var', '-h';
+     print $usage{'/var/log'};
+     untie %usage;
 
-To install this module type the following:
+DESCRIPTION
+    Tie::DiskUsage ties the disk-usage, which is gathered from the output of
+    "du", to a hash. If the path to perform the du-command on is being
+    omitted, the current working directory will be examined; optional
+    arguments to "du" may be passed subsequently.
 
-   perl Makefile.PL
-   make
-   make test
-   make install
-   
-SCRIPTS
+    By default, the location of the du-command is to be assumed in
+    /usr/bin/du; if "du" cannot be found to exist there, "File::Which" will
+    attempt to gather its former location.
 
-bin/du.pl
+    The default path to "du" may be overriden by setting
+    $Tie::DiskUsage::$DU_BIN.
 
-Outputs disk-usage.
+SEE ALSO
+    perlfunc, du(1)
 
-LICENSE
-
-This program is free software;
-you may redistribute it and/or modify it under the same terms as Perl itself.
-
-AUTHOR
-
-Steven Schubiger

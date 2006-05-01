@@ -1,7 +1,20 @@
 Revision history for Perl extension Tie::DiskUsage.
 
+0.14 Mon May  1 16:30:27 CEST 2006
+
+ - Symbol is now part of the prerequisite set.
+
+ - A suitable Build.PL has been added.
+ 
+ - Made the INSTALL file a part of the distribution.
+ 
+ - The test-suite has been extended to include module
+   loading & pod tests. 
+
 0.03 2004/01/27
+
  - bin/du.pl has been added.
 
 0.01 2004/01/26
+
  - Initial version.

@@ -1,52 +1,55 @@
 package Tie::DiskUsage;
 
-$VERSION = '0.13';
-@ISA = qw(Tie::StdHash);
-
 use strict;
-use vars qw($DU_BIN);
-use Carp 'croak';
-use Tie::Hash;
+use warnings;
+
+use Carp ();
+use Symbol ();
+use Tie::Hash ();
+
+our ($VERSION, @ISA, $DU_BIN);
+
+@ISA = qw(Tie::StdHash);
+$VERSION = '0.14';
 
 
 $DU_BIN = '/usr/bin/du';
 
 
 sub TIEHASH { 
-    (undef) = shift;
-    
-    return bless &_tie; 
+    my $class = shift;
+    return bless(&_tie, $class); 
 }
+
 sub UNTIE {}
 
 sub _tie {
-    _locate_du();
-      
+    _locate_du();   
     return &_parse_usage;
 }
 
 sub _locate_du {
-    if (not (-e $DU_BIN && -f $DU_BIN) && $] >= 5.008) { 
+    if (!(-e $DU_BIN && -f $DU_BIN) && $] >= 5.008) { 
         require File::Which;
 	my $du_which = File::Which::which('du');
 	
 	$du_which 
 	  ? $DU_BIN = $du_which 
-	  : croak "Couldn't locate $DU_BIN: $!";
+	  : Carp::croak "Couldn't locate $DU_BIN: $!";
     }
 }
 
 sub _parse_usage {
     my $path = shift || '.';
     
-    local *PIPE;
-    open PIPE, "$DU_BIN @_ $path |" or exit 1;
+    my $pipe = Symbol::gensym();
     
-    local $_ = do { local $/ = ''; <PIPE> };
+    open($pipe, "$DU_BIN @_ $path |") or exit(1);
+    
+    local $_ = do { local $/; <$pipe> };
     my %usage = (reverse split);
     
-    close PIPE 
-      or croak "Couldn't drop pipe to $DU_BIN: $!";
+    close($pipe);
       
     return \%usage;
 } 
@@ -60,7 +63,7 @@ Tie::DiskUsage - Tie disk-usage to a hash
 
 =head1 SYNOPSIS
 
- require Tie::DiskUsage;
+ use Tie::DiskUsage;
 
  tie %usage, 'Tie::DiskUsage', '/var', '-h';
  print $usage{'/var/log'};
