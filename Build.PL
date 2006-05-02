@@ -12,6 +12,8 @@ my $build = Module::Build->new
    dist_version_from => 'lib/Tie/DiskUsage.pm',
    requires => {
                  'Carp' => 0,
+		 'File::Basename' => 0,
+		 'File::Which' => 0,
 		 'Symbol' => 0,
                  'Tie::Hash' => 0,
                },

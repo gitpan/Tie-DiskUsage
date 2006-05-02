@@ -10,7 +10,7 @@ use Tie::Hash ();
 our ($VERSION, @ISA, $DU_BIN);
 
 @ISA = qw(Tie::StdHash);
-$VERSION = '0.14';
+$VERSION = '0.15';
 
 
 $DU_BIN = '/usr/bin/du';
@@ -29,13 +29,13 @@ sub _tie {
 }
 
 sub _locate_du {
-    if (!(-e $DU_BIN && -f $DU_BIN) && $] >= 5.008) { 
-        require File::Which;
+    if (!(-e $DU_BIN && -f $DU_BIN)) { 
+        eval { require File::Basename; require File::Which };
+	die $@ if $@;
 	my $du_which = File::Which::which('du');
-	
 	$du_which 
 	  ? $DU_BIN = $du_which 
-	  : Carp::croak "Couldn't locate $DU_BIN: $!";
+	  : Carp::croak "Can't locate ", File::Basename::basename($DU_BIN), ": $!";
     }
 }
 
