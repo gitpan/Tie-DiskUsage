@@ -10,7 +10,7 @@ use Tie::Hash ();
 our ($VERSION, @ISA, $DU_BIN);
 
 @ISA = qw(Tie::StdHash);
-$VERSION = '0.16';
+$VERSION = '0.17';
 
 
 $DU_BIN = '/usr/bin/du';
@@ -29,7 +29,7 @@ sub _tie {
 }
 
 sub _locate_du {
-    if (!(-e $DU_BIN && -f $DU_BIN)) {
+    if (!(-e $DU_BIN && -x $DU_BIN)) {
         eval { require File::Basename; require File::Which };
         die $@ if $@;
         my $du_which = File::Which::which('du');
@@ -44,14 +44,14 @@ sub _parse_usage {
     my $pipe = Symbol::gensym();
 
     open($pipe, "$DU_BIN @_ $path |") or exit(1);
-    my @lines = <$pipe>;
-    close($pipe);
 
     my %usage;
-    foreach my $line (@lines) {
+    while (my $line = <$pipe>) {
         my ($size, $item) = $line =~ /^(.*?)\s+?(.*)$/;
         $usage{$item} = $size;
     }
+    
+    close($pipe);
 
     return \%usage;
 }

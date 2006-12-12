@@ -1,5 +1,10 @@
 Revision history for Perl extension Tie::DiskUsage.
 
+0.17 Tue Dez 12 09:58:58 CET 2006
+
+ - Instead of populating an array with the output of
+   du, iterating through each element will take place.
+
 0.16 Mon Dec 11 22:07:09 CET 2006
 
  - Applied bugfix to allow file-/pathnames to

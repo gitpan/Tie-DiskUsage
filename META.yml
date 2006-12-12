@@ -1,6 +1,6 @@
 ---
 name: Tie-DiskUsage
-version: 0.16
+version: 0.17
 author:
   - 'Steven Schubiger <schubiger@cpan.org>'
 abstract: Tie disk-usage to a hash
@@ -23,6 +23,6 @@ meta-spec:
 provides:
   Tie::DiskUsage:
     file: lib/Tie/DiskUsage.pm
-    version: 0.16
+    version: 0.17
 resources:
   license: http://dev.perl.org/licenses/
