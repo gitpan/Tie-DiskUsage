@@ -1,6 +1,11 @@
 Revision history for Perl extension Tie::DiskUsage.
 
-0.17 Tue Dez 12 09:58:58 CET 2006
+0.18 Don Dec 14 02:17:28 CET 2006
+
+ - Extended the "SEE ALSO" section to include links
+   to similar minded distributions. [belg4mit@mit.edu]
+
+0.17 Tue Dec 12 09:58:58 CET 2006
 
  - Instead of populating an array with the output of
    du, iterating through each element will take place.

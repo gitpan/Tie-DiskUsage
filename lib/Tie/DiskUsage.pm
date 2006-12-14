@@ -10,7 +10,7 @@ use Tie::Hash ();
 our ($VERSION, @ISA, $DU_BIN);
 
 @ISA = qw(Tie::StdHash);
-$VERSION = '0.17';
+$VERSION = '0.18';
 
 
 $DU_BIN = '/usr/bin/du';
@@ -50,7 +50,7 @@ sub _parse_usage {
         my ($size, $item) = $line =~ /^(.*?)\s+?(.*)$/;
         $usage{$item} = $size;
     }
-    
+
     close($pipe);
 
     return \%usage;
@@ -88,6 +88,6 @@ $Tie::DiskUsage::$DU_BIN.
 
 =head1 SEE ALSO
 
-L<perlfunc/tie>, du(1)
+L<perlfunc/tie>, du(1), L<Filesys::DiskUsage>, L<Sys::Statistics::Linux>
 
 =cut

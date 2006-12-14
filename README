@@ -22,5 +22,5 @@ DESCRIPTION
     $Tie::DiskUsage::$DU_BIN.
 
 SEE ALSO
-    "tie" in perlfunc, du(1)
+    "tie" in perlfunc, du(1), Filesys::DiskUsage, Sys::Statistics::Linux
 
